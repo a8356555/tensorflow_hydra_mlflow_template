@@ -1,0 +1,54 @@
+defaults:
+  - data:
+  - model:
+  - optimizer:
+# [ grayscale, rgb]
+color_mode: rgb
+
+# train setting
+# [categorical_crossentropy, binary_crossentropy]
+loss:
+batch_size:
+n_epochs:
+multi_task: false
+
+train_strategy:
+  # train warmup if warmup > 0
+  warmup: 0
+
+  # backbone of model trainable
+  backbone_net_trainable: true
+
+# slice frame setting
+enable_random_slice: false
+enable_clip_predict: false
+num_slice_frame: 64
+clip_frame_step: 32
+
+# mixed precision
+mixed_precision: false
+
+# Learning rete strategy
+SGDWR:
+  enable: false
+  decay: 0.8
+  period: 20
+
+HPCS:
+  enable: false
+  decay: 0.8
+  period: 10
+  initial_lr: 1e-5
+  warmup: 10
+  multi_factor: 1.5
+
+mlflow:
+  url: "http://0.0.0.0:5000/"
+  experiment_name: "TLS_PGT"
+  tag:
+
+# @package _global_
+hydra:
+  output_subdir: .hydra/${now:%Y-%m-%d_%H-%M-%S}
+  run:
+    dir: logs

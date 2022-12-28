@@ -1,0 +1,6 @@
+# @package _group_
+# https://keras.io/api/optimizers/sgd/
+optimizer_name: SGD
+learning_rate: 0.01
+momentum: 0.9
+nesterov: True

@@ -1,0 +1,90 @@
+defaults:
+  - data: ucf101
+  - model: custom_model
+  - optimizer: sgd
+
+# [ grayscale, rgb]
+color_mode: rgb
+
+# train setting
+# [classification, regression]
+task_type: classification
+# [categorical_crossentropy, binary_crossentropy, sigmoid_focal_crossentropy]
+loss: binary_crossentropy
+batch_size: 12
+n_epochs: 200
+multi_task: false
+
+train_strategy:
+  # train warmup if warmup > 0
+  warmup: 0
+
+  # backbone of model trainable
+  backbone_net_trainable: true
+  enable_accum_grad: false
+  global_batch_size: 128
+
+# mixed precision
+mixed_precision: false
+
+RLROP:
+  enable: false
+  monitor: val_loss
+  factor: 0.3
+  min_delta: 0.0001
+  patience: 10
+  mode: auto
+  cooldown: 0
+  
+# Learning rete strategy
+SGDWR:
+  enable: false
+  decay: 0.8
+  period: 20
+
+OCSGDWR:
+  enable: false
+  decay: 0.97
+  first_cycle: 30
+
+
+HPCS:
+  enable: false
+  decay: 0.9
+  period: 20
+  initial_lr: 1e-5
+  warmup: 10
+  multi_factor: 1
+
+OCS:
+  enable: false
+  div_factor: 10
+
+data_augmentation:
+  # not apply if value is None
+  resize_size:
+  random_crop_size:
+  # random flip
+  horizontal_flip: true
+  vertical_flip: true
+
+  # Center: I'= I/127.5 - 1
+  # Normalize: I' = I/255.0
+  image_normalize_method: Center
+  # translate setting. [-0.1,0.1]
+  # translate_percent:
+  # random rotate in degree. [ -10, 10]
+  # random_rotate_degree:
+  # gamma color adjustment. [0.9, 1.1]
+  gamma_adjustment:
+
+mlflow:
+  url: "http://0.0.0.0:5000/"
+  experiment_name: "TLS_PGT"
+  tag:
+
+# @package _global_
+hydra:
+  output_subdir: .hydra/${now:%Y-%m-%d_%H-%M-%S}
+  run:
+    dir: logs

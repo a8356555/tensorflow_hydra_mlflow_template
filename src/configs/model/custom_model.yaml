@@ -1,0 +1,5 @@
+# @package _group_
+# required
+model_file_name: custom_model
+model_class_name: CustomModel
+# optional
